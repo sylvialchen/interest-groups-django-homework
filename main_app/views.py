@@ -5,8 +5,6 @@ from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from .models import School, Chapter
 from .forms import EventForm
-# Create your views here.
-
 
 def home(request):
     return render(request, "home.html")
@@ -34,7 +32,7 @@ def add_event(request, school_id):
     # validate the form
     if form.is_valid():
         # don't save the form to the db until it
-        # has the cat_id assigned
+        # has the school_id is assigned
         new_event = form.save(commit=False)
         new_event.school_id = school_id
         new_event.save()
@@ -42,7 +40,6 @@ def add_event(request, school_id):
 
 
 def visited_chapter(request, school_id, chapter_id):
-    # Note that you can pass a toy's id instead of the whole object
     School.objects.get(id=school_id).can_visit.add(chapter_id)
     return redirect('detail', school_id=school_id)
 
@@ -60,7 +57,6 @@ class SchoolCreate(CreateView):
 
 class SchoolUpdate(UpdateView):
     model = School
-  # Let's disallow the renaming of a school by excluding the name field!
     fields = ['name', 'school_name', 'school_state',
               'group_pillars', 'group_social_media', 'contact_emails']
 

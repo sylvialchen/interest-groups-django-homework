@@ -49,7 +49,7 @@ class PlannedEvent(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def __str__(self):
-        # Nice method for obtaining the friendly value of a Field.choice
+        # Nice method for obtaining the friendly string value of a Field.choice
         return f"{self.school} hosted {self.type_of_event} event on {self.date}"
 
     class Meta:
