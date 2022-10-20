@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Chapter List</h2>
+{% for chapter in object_list %}
+<div class="card">
+  <span class="card-title">{{chapter.name}} Chapter @ {{chapter.chapter_school}}</span>
+  <p>Located:
+    {{ chapter.city_state}}
+  </p>
+  <p>Founded:
+    {{ chapter.original_founding_date}}
+  </p>
+
+  {% if chapter.recharter_date != None %}
+  <p>Rechartered: {{chapter.recharter_date}}</p>
+  {% endif %}
+  <div class="card-action">
+    <a href="{% url 'chapter_update' chapter.id %}">Edit</a>
+    <a href="{% url 'chapter_delete' chapter.id %}">Delete</a>
+  </div>
+</div>
+
+
+
+{% endfor %}
+
+
+{% endblock %}

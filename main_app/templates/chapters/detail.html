@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Chapter Details</h2>
+
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{chapter.name}} Chapter @ {{chapter.chapter_school}}</span>
+    <p>Located:
+      {{ chapter.city_state}}
+    </p>
+    <p>Founded:
+      {{ chapter.original_founding_date}}
+    </p>
+
+    {% if chapter.recharter_date != None %}
+    <p>Rechartered: {{chapter.recharter_date}}</p>
+    {% endif %}
+  </div>
+  <div class="card-action">
+    <a href="{% url 'chapter_update' chapter.id %}">Edit</a>
+    <a href="{% url 'chapter_delete' chapter.id %}">Delete</a>
+  </div>
+</div>
+
+{% endblock %}

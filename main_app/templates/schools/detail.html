@@ -1,0 +1,130 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2>IG Details</h2>
+<div class="row">
+  <div class="col s5">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">
+          {{ school.name }} @
+          {{ school.school_name }} -
+          {{ school.school_state }}</span>
+        </p>
+        <p>
+          {{ school.group_pillars }}
+          {{ school.group_social_media }}
+          {{ school.contact_emails }}
+        </p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'school_update' school.id %}">Edit</a>
+        <a href="{% url 'school_delete' school.id %}">Delete</a>
+      </div>
+    </div>
+  </div>
+  <div class="col s7">
+    <form action="{% url 'add_event' school.id %}" method="post">
+      {% csrf_token %}
+      {{ event_form.as_p }}
+      <input type="submit" class="btn" value="Add Event" />
+    </form>
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type of Event</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for each_event in school.plannedevent_set.all %}
+        <tr>
+          <td>{{each_event.date}}</td>
+          <td>{{each_event.get_type_of_event_display}}</td>
+          <td>{{each_event.description}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr />
+<div class="row">
+
+  <div class="col s6">
+    <h4>
+      Chapters Visited
+    </h4>
+    {% if school.can_visit.count %}
+    {% for chapter in school.can_visit.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{chapter.name}} Chapter @ {{chapter.chapter_school}}</span>
+        <p>Located:
+          {{ chapter.city_state}}
+        </p>
+        <p>Founded:
+          {{ chapter.original_founding_date}}
+        </p>
+
+        {% if chapter.recharter_date != None %}
+        <p>Rechartered: {{chapter.recharter_date}}</p>
+        {% endif %}
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>No Chapters Visited :(</h5>
+    {% endif %}
+  </div>
+
+
+  <!-- Available toys will come after this line -->
+  <div class="col s6">
+    <h4>Unvisited Chapters & Associate Chapters</h4>
+    {% if chapters.count %}
+    {% for chapter in chapters.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{chapter.name}} Chapter @ {{chapter.chapter_school}}</span>
+        <p>Located:
+          {{ chapter.city_state}}
+        </p>
+        <p>Founded:
+          {{ chapter.original_founding_date}}
+        </p>
+
+        {% if chapter.recharter_date != None %}
+        <p>Rechartered: {{chapter.recharter_date}}</p>
+        {% endif %}
+      </div>
+      <div class="card-action">
+        <form action="{% url 'visited_chapter' school.id chapter.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn">Add</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>{{school.name}} Visited All Active Chapters!</h5>
+    {% endif %}
+  </div>
+</div>
+
+
+
+<script>
+  var dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+  var selectEl = document.getElementById('id_type_of_event');
+  M.FormSelect.init(selectEl);
+</script>
+{% endblock %}

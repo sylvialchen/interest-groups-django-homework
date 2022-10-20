@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'interest_groups/style.css' %}" />
+</head>
+
+<body>
+  <!-- Materialize Class-specific, from Materialize documentation-->
+  <header class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper grey">
+        <ul>
+          <li>
+            <a href="/" class="left brand-logo">Interest Groups</a>
+          </li>
+        </ul>
+        <ul class="right">
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'school_create' %}">Add an IG</a></li>
+          <li><a href="{% url 'index' %}">View All IGs</a></li>
+          <li><a href="{% url 'chapter_create' %}">Add a Chapter</a></li>
+          <li><a href="{% url 'chapters_index' %}">View All Chapters</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main class="container">{% block content %} {% endblock %}</main>
+  <footer class="page-footer grey">
+    <div class="right">
+      All Rights Reserved &copy;
+    </div>
+  </footer>
+</body>
+
+</html>
